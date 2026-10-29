@@ -1,0 +1,7 @@
+{
+  "key": "MachineTranslate",
+  "version": "1.5.4",
+  "isEnable": true,
+  "dllPath": "MachineTranslate.dll",
+  "frontModKeys": null
+}

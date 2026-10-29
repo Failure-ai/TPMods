@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MachineTranslate.csproj
+  ============================================================
+  tPlainModLoader 模组工程文件（风格与 SundryTool.csproj / tContentPatch.csproj 一致）
+    - 非 SDK 风格（经典 .NET Framework csproj, net472）
+    - 引用直接使用 HintPath 指向本机真实路径（无需任何 ConfigPublic.targets）
+    - 编译输出(Debug/Release 均直接写入, v1.4.4) tPlainModLoader\Mods\MachineTranslate\，
+      连同 info.json / loadConfig.json 一起复制，tPML 即可直接加载
+
+  >> 使用方法 <<
+    1. 用 VS2022 打开本 .csproj（或右键解决方案 → 添加 → 现有项目）
+    2. 直接 编译(生成) 即可，产物自动落在 tPML 的 Mods\MachineTranslate\ 目录
+    3. 若盘符/目录不同，只需修改下方 HintPath 与 OutputPath 中的路径
+
+  本机路径（当前取值与 SundryTool 工程一致）：
+    tPML 根目录:   G:\a-2yx\Terraria1.4.5.8\tPlainModLoader\
+    游戏目录:      G:\a-2yx\Terraria1.4.5.8\
+    Newtonsoft:    G:\a-2yx\Terraria\Newtonsoft.Json.dll
+    ReLogic:       G:\a-2yx\Terraria\ReLogic.dll
+-->
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E4A9C2B-3F1D-4E86-9B5A-C2D8F0A1E534}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MachineTranslate</RootNamespace>
+    <AssemblyName>MachineTranslate</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <LangVersion>8.0</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>CS0168;CS0219;CS0414;CS0649;CS0162;CS8019;CS0108;CS0114;CS0436</NoWarn>
+  </PropertyGroup>
+  <!-- Debug 直接输出到 tPML 模组目录（与 SundryTool 相同的部署方式） -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>G:\a-2yx\Terraria1.4.5.8\tPlainModLoader\Mods\MachineTranslate\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <!-- v1.4.4: Release 输出路径改为与 Debug 一致(直落 tPML 模组目录)。此前 Release 落在
+         bin\Release\ 不会被 tPML 加载 —— VS 停在 Release 配置生成就会造成
+         "源码明明改了、游戏里还是老样子/还在跑旧版"(v1.4.3 实测踩坑) -->
+    <OutputPath>G:\a-2yx\Terraria1.4.5.8\tPlainModLoader\Mods\MachineTranslate\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!-- 本机引用（路径均为真实存在的文件, 请勿设 Private=True, 运行时由 tPML/游戏提供） -->
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>G:\a-2yx\Terraria1.4.5.8\tPlainModLoader\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="tContentPatch">
+      <HintPath>G:\a-2yx\Terraria1.4.5.8\tPlainModLoader\tContentPatch.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>G:\a-2yx\Terraria\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <!-- ReLogic: ChatManager.GetStringSize / DrawColorCodedStringWithShadow 的签名带
+         ReLogic.Graphics.DynamicSpriteFont, 编译器必须能解析该程序集(CS0012), 缺它会报
+         "DynamicSpriteFont 定义在未引用的程序集中" -->
+    <Reference Include="ReLogic">
+      <HintPath>G:\a-2yx\Terraria\ReLogic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Terraria">
+      <HintPath>G:\a-2yx\Terraria1.4.5.8\Terraria.exe</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <!-- 系统引用 -->
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <!-- XNA 引用（与 tContentPatch.csproj 一致, 从 GAC 加载） -->
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" />
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" />
+  </ItemGroup>
+  <!-- 源文件清单 -->
+  <ItemGroup>
+    <Compile Include="CacheStore.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="MachineTranslateMod.cs" />
+    <Compile Include="Hooks\ChatTranslate.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\SettingPage.cs" />
+    <Compile Include="Settings\SettingsData.cs" />
+    <Compile Include="Translators\CaiyunNoToken.cs" />
+    <Compile Include="Translators\Translator.cs" />
+    <Compile Include="Translators\TranslatorCore.cs" />
+  </ItemGroup>
+  <!-- tPML 模组元数据（随编译自动复制到输出目录） -->
+  <ItemGroup>
+    <None Include="info.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="loadConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
