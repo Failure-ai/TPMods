@@ -23,7 +23,7 @@ Terraria 1.4.5 tPML 聊天翻译模组：收到聊天消息自动后台翻译成
 **确认游戏里跑的是新版**：v1-beta16-t1.4.5.8，泰拉瑞亚1.4.5.8。
 
 ## 使用发布版本
-- 下载发布版本：[MachineTranslate.zip](https://github.com/Failure-ai/VideoParsing/releases)
+- 下载发布版本：[MachineTranslate.zip](https://github.com/Failure-ai/TPMods/releases)
 - 解压文件到Mods目录，启用加载器即可运行
 
 ## 目录结构
